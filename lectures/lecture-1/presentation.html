@@ -897,6 +897,8 @@ button.ch:hover{background:var(--coral);color:#fff}
 .xl-bar{font-size:16px}
 
 .ltrx{direction:ltr;unicode-bidi:isolate}
+.xl{position:relative}
+.xl-sink{position:absolute;top:0;left:0;width:1px;height:1px;opacity:0;border:0;padding:0;resize:none;pointer-events:none;overflow:hidden}
 </style>
 </head>
 <body>
@@ -1142,6 +1144,10 @@ function mount(host,cfg){
   <div class="xl-wrap"><table class="xl-g" tabindex="0"><thead><tr><th class="xl-c0"></th>${Array.from({length:C},(_,c)=>`<th style="width:${W[c]||92}px">${colName(c)}</th>`).join('')}</tr></thead><tbody>${Array.from({length:R},(_,r)=>`<tr><th class="xl-rn">${r+1}</th>${Array.from({length:C},(_,c)=>`<td data-a="${addr(r,c)}"></td>`).join('')}</tr>`).join('')}</tbody></table></div>
   ${cfg.targets?'<div class="xl-fb"></div>':''}`;
  const g=host.querySelector('.xl-g'),bar=host.querySelector('.xl-bar'),nameB=host.querySelector('.xl-name'),msg=host.querySelector('.xl-msg'),fb=host.querySelector('.xl-fb');
+ /* hidden text sink: catches typing from on-screen keyboards and IMEs that send input events without a usable key */
+ const sink=document.createElement('textarea');sink.className='xl-sink';sink.setAttribute('aria-hidden','true');sink.tabIndex=-1;sink.spellcheck=false;host.appendChild(sink);
+ const focusG=()=>sink.focus({preventScroll:true});
+ sink.addEventListener('input',()=>{const v=sink.value;sink.value='';if(!editing&&v)startEdit(v.trim()===''?'':v,false);});
  const td=a=>g.querySelector(`td[data-a="${a}"]`);
  let sel={r:0,c:0},sel2={r:0,c:0},editing=null,showF=false,marks={};
  const inSel=(r,c)=>r>=Math.min(sel.r,sel2.r)&&r<=Math.max(sel.r,sel2.r)&&c>=Math.min(sel.c,sel2.c)&&c<=Math.max(sel.c,sel2.c);
@@ -1158,8 +1164,8 @@ function mount(host,cfg){
   inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length);
   inp.oninput=()=>{bar.value=inp.value;};inp.onkeydown=keyEdit;}
  function curInput(){return editing?(editing.where==='bar'?bar:td(editing.a).querySelector('input')):null;}
- function commit(dr,dc){if(!editing)return;const v=curInput().value.trim();S.set(editing.a,v);editing=null;move(dr,dc);render();g.focus({preventScroll:true});if(cfg.onChange)cfg.onChange();}
- function cancel(){editing=null;render();g.focus({preventScroll:true});}
+ function commit(dr,dc){if(!editing)return;const v=curInput().value.trim();S.set(editing.a,v);editing=null;move(dr,dc);render();focusG();if(cfg.onChange)cfg.onChange();}
+ function cancel(){editing=null;render();focusG();}
  function move(dr,dc){sel={r:Math.max(0,Math.min(R-1,sel.r+dr)),c:Math.max(0,Math.min(C-1,sel.c+dc))};sel2={...sel};}
  function keyEdit(e){e.stopPropagation();
   if(e.key==='Enter'){e.preventDefault();commit(e.shiftKey?-1:1,0);}
@@ -1176,7 +1182,7 @@ function mount(host,cfg){
   if(editing&&editing.a===cell.dataset.a)return;
   if(editing&&pointable()){e.preventDefault();insertRef(cell.dataset.a);return;}
   if(editing)commit(0,0);
-  e.preventDefault();sel={...p};sel2={...p};drag={k:'sel'};try{g.setPointerCapture(e.pointerId);}catch(_){}render();g.focus({preventScroll:true});});
+  e.preventDefault();sel={...p};sel2={...p};drag={k:'sel'};try{g.setPointerCapture(e.pointerId);}catch(_){}render();focusG();});
  g.addEventListener('pointermove',e=>{if(!drag)return;const el=document.elementFromPoint(e.clientX,e.clientY);const cell=el&&el.closest&&el.closest('td');if(!cell||!g.contains(cell))return;const p=parseAddr(cell.dataset.a);
   if(drag.k==='sel'){sel2=p;render();}
   else{const f=drag.from;const dr=p.r-f.r,dc=p.c-f.c;const to=Math.abs(dr)>=Math.abs(dc)?{r:p.r,c:f.c}:{r:f.r,c:p.c};drag.to=to;
@@ -1192,7 +1198,7 @@ function mount(host,cfg){
    let last=f.r;for(let r=f.r+1;r<R;r++){const nb=[f.c-1,f.c+1].some(c=>c>=0&&c<C&&S.raw[addr(r,c)]!=null);if(nb)last=r;else break;}
    if(last>f.r)fill(f,{r:last,c:f.c});return;}
   const cell=e.target.closest('td');if(!cell)return;sel=parseAddr(cell.dataset.a);sel2={...sel};startEdit('',true);});
- g.addEventListener('keydown',e=>{if(editing)return;const k=e.key;
+ const gKey=e=>{if(editing)return;const k=e.key;
   const mod=e.ctrlKey||e.metaKey;
   if(mod&&(k==='c'||k==='C'||k==='ג')){e.preventDefault();e.stopPropagation();CLIP={raw:S.raw[addr(sel.r,sel.c)],r:sel.r,c:sel.c,fmt:S.fmt[addr(sel.r,sel.c)]};toastX('הועתק. סמנו תא או טווח, והדביקו ב-Ctrl+V');return;}
   if(mod&&(k==='v'||k==='V'||k==='ה')){e.preventDefault();e.stopPropagation();if(!CLIP||CLIP.raw==null)return;
@@ -1204,7 +1210,8 @@ function mount(host,cfg){
   if(k==='F2'){e.preventDefault();e.stopPropagation();startEdit('',true);return;}
   if(k==='Delete'||k==='Backspace'){e.preventDefault();e.stopPropagation();for(let r=Math.min(sel.r,sel2.r);r<=Math.max(sel.r,sel2.r);r++)for(let c=Math.min(sel.c,sel2.c);c<=Math.max(sel.c,sel2.c);c++)S.set(addr(r,c),'');render();if(cfg.onChange)cfg.onChange();return;}
   if(k===' '||k.length===1&&!mod){e.preventDefault();e.stopPropagation();startEdit(k===' '?'':k,false);return;}
-  if(k==='Escape'||k==='PageDown'||k==='PageUp'||k==='Home'||k==='End')e.stopPropagation();});
+  if(k==='Escape'||k==='PageDown'||k==='PageUp'||k==='Home'||k==='End')e.stopPropagation();};
+ g.addEventListener('keydown',gKey);sink.addEventListener('keydown',gKey);
  bar.addEventListener('focus',()=>{if(!editing){editing={a:addr(sel.r,sel.c),where:'bar',orig:S.raw[addr(sel.r,sel.c)]||''};}});
  bar.addEventListener('keydown',keyEdit);
  bar.addEventListener('blur',()=>{if(editing&&editing.where==='bar')setTimeout(()=>{if(editing&&editing.where==='bar'&&document.activeElement!==bar)commit(0,0);},120);});
