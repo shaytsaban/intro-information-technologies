@@ -952,6 +952,8 @@ button.ch:hover{background:var(--coral);color:#fff}
 .int-note{margin-top:10px;font-size:14px;line-height:1.45;color:var(--mut);border-top:1px dashed var(--line);padding-top:7px}
 .fl-sub{font-size:17px!important;margin-top:2px}
 .fl-q{display:inline-block;margin-top:6px;font-style:normal;font-size:13px;font-weight:700;color:var(--ink2);background:var(--paper);border:1px solid var(--line);border-radius:99px;padding:1px 10px}
+
+#cgrid{grid-template-columns:repeat(5,1fr)}
 </style>
 </head>
 <body>
@@ -1014,7 +1016,7 @@ button.ch:hover{background:var(--coral);color:#fff}
 
 <section class="slide" id="s-course" data-title="מפת הקורס">
   <div class="kick">מפת הקורס</div>
-  <h2>12 שיעורים, חמישה עולמות. לחצו על שיעור</h2>
+  <h2>13 שיעורים, חמישה עולמות. לחצו על שיעור</h2>
   <div class="chleg" id="chleg"></div>
   <div class="row" style="margin-top:10px;gap:18px;align-items:flex-start">
     <div class="cgrid" id="cgrid" style="flex:1.25"></div>
@@ -2032,7 +2034,8 @@ const COURSE=[
  {n:9,ch:'base',t:'חזרה ותרגול',w:'תרגול ממוקד מקובץ התרגולים.',ex:'שאלות בסגנון מבחן מכל הנושאים עד כה.'},
  {n:10,ch:'intel',t:'בינה מלאכותית, חלק א',w:'מה זה AI, איך מודלים לומדים, ואיפה הם בארגון.',ex:'צ׳אטבוטים, המלצות וזיהוי הונאות: מה עובד ואיפה הסיכונים.'},
  {n:11,ch:'intel',t:'בינה מלאכותית, חלק ב',w:'יישומים עסקיים, אתיקה ואחריות.',ex:'מי אחראי כשהאלגוריתם טועה?'},
- {n:12,ch:'intel',t:'בינה עסקית (BI) ותרגול לבחינה',w:'מנתונים ללוחות מחוונים ולהחלטות, וסיכום הקורס.',ex:'איך מנהלת רואה את כל העסק במסך אחד.'}
+ {n:12,ch:'intel',t:'בינה עסקית (BI)',w:'מנתונים ללוחות מחוונים ולהחלטות.',ex:'איך מנהלת רואה את כל העסק במסך אחד.'},
+ {n:13,ch:'base',t:'חזרה מסכמת ותרגול לבחינה',w:'סיכום הקורס ותרגול שאלות בסגנון הבחינה מכל הנושאים.',ex:'איך נראית שאלה שמחברת בין שני נושאים בקורס.'}
 ];
 const OUT=[
  ['🧭','לזהות','איזו מערכת מידע משרתת כל דרג בארגון, ואיזו החלטה היא תומכת.'],
