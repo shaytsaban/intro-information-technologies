@@ -899,6 +899,27 @@ button.ch:hover{background:var(--coral);color:#fff}
 .ltrx{direction:ltr;unicode-bidi:isolate}
 .xl{position:relative}
 .xl-sink{position:absolute;top:0;left:0;width:1px;height:1px;opacity:0;border:0;padding:0;resize:none;pointer-events:none;overflow:hidden}
+
+/* part openers (from src/extra3.css) */
+@keyframes ezin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.pd{display:flex;flex-direction:column;justify-content:center}
+.pd-num{position:absolute;left:30px;top:-40px;font-size:560px;font-weight:900;line-height:1;color:var(--pc);opacity:.16;pointer-events:none}
+.pd-in{position:relative;max-width:1050px;margin-top:-40px}
+.pd-h{font-size:66px;font-weight:800;line-height:1.1;margin:4px 0 10px}
+.pd-q{font-size:22px;color:#c8d4f2;margin-bottom:22px}
+.pd-q b{color:#7fe3d6}
+.pd-cols{display:flex;gap:18px}
+.pd-box{flex:1;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:18px 22px}
+.pd-box>b{display:block;font-size:17px;color:#ffb199;margin-bottom:8px}
+.pd-box ul{margin:0;padding-inline-start:22px;font-size:19.5px;line-height:1.6}
+.pd-terms{display:flex;flex-wrap:wrap;gap:8px}
+.pd-terms .term{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.28);padding:5px 13px;border-radius:99px;font-size:16.5px}
+.pd-rail{position:absolute;left:64px;right:64px;bottom:74px;display:flex;gap:10px}
+.pd-st{flex:1;display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.05);color:#8fa0c7;font-size:16px}
+.pd-st i{font-style:normal;width:30px;height:30px;flex:none;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1);font-weight:800}
+.pd-st.cur{background:var(--pc);color:#fff;font-weight:700}.pd-st.cur i{background:#fff;color:var(--pc)}
+.pd-st.past{color:#c8d4f2}.pd-st.past i{background:rgba(127,227,214,.28)}
+.slide.on .pd-box,.slide.on .pd-h{animation:ezin .6s both}.slide.on .pd-box+.pd-box{animation-delay:.15s}
 </style>
 </head>
 <body>
@@ -948,7 +969,7 @@ button.ch:hover{background:var(--coral);color:#fff}
 <section class="slide" id="s-ref" data-title="נוסחה והפניה"><div class="kick">חלק 3 · הגדרה והדגמה</div><h2 style="font-size:34px"><span class="term" data-t="formula">נוסחה</span> ו<span class="term" data-t="reference">הפניה לתא</span></h2>
 <div class="xw"><div class="task"><p><b>נוסחה</b> מתחילה תמיד ב-=. בלי =, Excel רואה טקסט ולא מחשב.</p><p style="margin-top:6px"><b>הפניה</b>: במקום להקליד את המספר, כותבים את כתובת התא שבו הוא נמצא: <code>=B2*C2</code> ולא <code>=120*3</code>.</p><p style="margin-top:8px"><b>הניסוי:</b> בשורה 2 החישוב בנוי מהפניות. בשורה 3 התוצאה הוקלדה ידנית. שנו את המחיר ב-B2 וב-B3 ל-150, וראו מה מתעדכן.</p><p style="margin-top:6px">מה שהתא <b>מציג</b> הוא התוצאה. מה שרשום בו באמת מופיע ב<span class="term" data-t="fbar">שורת הנוסחאות</span>.</p><div class="tourbox" id="refq" style="margin-top:8px"></div></div><div class="sheet"><div id="sh-ref"></div></div></div></section>
 <section class="slide" id="s-ops" data-title="אופרטורים וסדר פעולות"><div class="kick">חלק 3 · הגדרה והדגמה</div><h2 style="font-size:34px"><span class="term" data-t="operator">אופרטורים</span> ו<span class="term" data-t="order">סדר פעולות</span></h2>
-<div class="xw"><div class="task"><table class="tbl2" style="font-size:15px"><tr><th>פעולה</th><th>סימן</th><th>דוגמה</th><th>תוצאה</th></tr><tr><td>חיבור</td><td>+</td><td><code>=8+2</code></td><td>10</td></tr><tr><td>חיסור</td><td>-</td><td><code>=8-2</code></td><td>6</td></tr><tr><td>כפל</td><td>*</td><td><code>=8*2</code></td><td>16</td></tr><tr><td>חילוק</td><td>/</td><td><code>=8/2</code></td><td>4</td></tr><tr><td>חזקה</td><td>^</td><td><code>=8^2</code></td><td>64</td></tr><tr><td>אחוז</td><td>%</td><td><code>=50%*80</code></td><td>40</td></tr></table><p style="margin-top:8px"><b>סדר פעולות:</b> סוגריים, חזקה, כפל וחילוק, ובסוף חיבור וחיסור. <code>=2+3*4</code> נותן 14, ו-<code>=(2+3)*4</code> נותן 20.</p><div class="tl">לחצו על דוגמה כדי לרשום אותה בגיליון, או כתבו נוסחה משלכם בעמודה B.</div><div class="tour" id="opsb" style="margin-top:6px"></div></div><div class="sheet"><div id="sh-ops"></div></div></div></section>
+<div class="xw"><div class="task"><table class="tbl2" style="font-size:15px"><tr><th>פעולה</th><th>סימן</th><th>דוגמה</th><th>תוצאה</th></tr><tr><td>חיבור</td><td>+</td><td><code>=8+2</code></td><td>10</td></tr><tr><td>חיסור</td><td>-</td><td><code>=8-2</code></td><td>6</td></tr><tr><td>כפל</td><td>*</td><td><code>=8*2</code></td><td>16</td></tr><tr><td>חילוק</td><td>/</td><td><code>=8/2</code></td><td>4</td></tr><tr><td>חזקה</td><td>^</td><td><code>=8^2</code></td><td>64</td></tr><tr><td>אחוז</td><td>%</td><td><code>=50%*80</code></td><td>40</td></tr></table><p style="margin-top:8px"><b>סדר פעולות:</b> סוגריים, חזקה, כפל וחילוק, ובסוף חיבור וחיסור. <code>=2+3*4</code> נותן 14, ו-<code>=(2+3)*4</code> נותן 20.</p><div class="tl">לחצו על דוגמה: הנוסחה נרשמת בעמודה B, ובעמודה C מופיעה התוצאה שצריכה לצאת, להשוואה. אפשר גם לכתוב בעמודה B נוסחה משלכם.</div><div class="tour" id="opsb" style="margin-top:6px"></div></div><div class="sheet"><div id="sh-ops"></div></div></div></section>
 <section class="slide" id="s-point" data-title="בחירת תא בלחיצה"><div class="kick">חלק 3 · כלי עבודה</div><h2 style="font-size:34px"><span class="term" data-t="point">בחירת תא בלחיצה</span> ו<span class="term" data-t="errors">הודעות שגיאה</span></h2>
 <div class="xw"><div class="task"><ol style="margin:0 18px 0 0;padding:0;line-height:1.7"><li>עומדים על D2 ומקלידים =.</li><li>לוחצים על B2: הכתובת נכנסת לנוסחה.</li><li>מקלידים *, ולוחצים על C2.</li><li><span class="kb">Enter</span>.</li></ol><p style="margin-top:8px">כך לא טועים בהקלדת כתובות. נסו בשורה 3, ואחר כך כתבו בכוונה <code>=B3/0</code> כדי לראות הודעת שגיאה.</p><table class="tbl2" style="font-size:14px;margin-top:8px"><tr><th>שגיאה</th><th>פירוש</th></tr><tr><td>#DIV/0!</td><td>חילוק באפס או בתא ריק</td></tr><tr><td>#VALUE!</td><td>חישוב על טקסט</td></tr><tr><td>#NAME?</td><td>שם פונקציה לא מוכר או כתובת שגויה</td></tr></table></div><div class="sheet"><div id="sh-point"></div></div></div></section>
 <section class="slide" id="s-x1" data-title="תרגיל: כרטסת לקוחות"><div class="kick">חלק 3 · תרגיל 1</div><h2 style="font-size:34px"><span class="term" data-t="ar">כרטסת לקוחות</span>: כמה כל לקוח עוד חייב?</h2>
@@ -1326,7 +1347,7 @@ const EX={
  tour:{rows:6,cols:4,widths:[110,110,96,120],head:H0,data:{...tbl(['שם הלקוח','סך העסקה','שולם','יתרה לתשלום'],[['דנה',4200,3000],['עומר',1850,1850],['ליה',7300,5000]]),D2:'=B2-C2',D3:'=B3-C3',D4:'=B4-C4'}},
  cellx:{rows:8,cols:6,widths:[80,80,80,80,80,80],data:{}},
  refx:{rows:4,cols:4,widths:[100,100,100,130],head:H0,data:{A1:'מוצר',B1:'מחיר',C1:'כמות',D1:'סה״כ',A2:'מקלדת',B2:'120',C2:'3',D2:'=B2*C2',A3:'מקלדת',B3:'120',C3:'3',D3:'360'}},
- opsx:{rows:6,cols:3,widths:[130,190,130],head:H0,data:{A1:'דוגמה',B1:'נוסחה (נסו בעצמכם)',C1:'הערה'}},
+ opsx:{rows:6,cols:3,widths:[100,150,200],head:H0,data:{A1:'דוגמה',B1:'נוסחה (נסו בעצמכם)',C1:'תוצאה צפויה'}},
  fillx:{rows:7,cols:4,widths:[96,96,80,110],head:H0,data:{...tbl(['פריט','מחיר','כמות','סה״כ'],[['חלב',6.9,12],['לחם',8.5,10],['גבינה',14.9,6],['ביצים',13,8],['קפה',24.9,4]]),D2:'=B2*C2'}},
  pctx:{rows:5,cols:3,widths:[140,110,160],head:H0,data:{A1:'מה רושמים',B1:'ערך',C1:'מה התא מציג',A2:'18%',B2:'18%',A3:'0.18',B3:'0.18',A4:'18 ואז עיצוב אחוזים',B4:'18',A5:'‎=200*18%',B5:'=200*18%'},fmt:{B4:'pct'}},
  sumx:{rows:7,cols:2,widths:[110,110],head:H0,data:{...tbl(['חודש','מכירות'],[['ינואר',41000],['פברואר',38000],['מרץ',45000],['אפריל',36000],['מאי',47000]]),A7:'סה״כ'}},
@@ -1376,7 +1397,7 @@ if($('#refq'))$('#refq').innerHTML='שנו את B2 ואת B3 ל-150, ולחצו 
 
 /* ---------- operators: example buttons write into the sheet ---------- */
 (function(){const host=$('#opsb'),s=SH.ops;if(!host||!s)return;
- const EXM=[['כפל','=12*3','36'],['סדר פעולות','=2+3*4','14: קודם כפל'],['סוגריים','=(2+3)*4','20: קודם סוגריים'],['חזקה','=2^10','1024'],['אחוז','=50%*80','40']];
+ const EXM=[['כפל','=8*2','16'],['סדר פעולות','=2+3*4','14, כי כפל לפני חיבור'],['סוגריים','=(2+3)*4','20, כי סוגריים קודם'],['חזקה','=2^6','64'],['אחוז','=50%*80','40']];
  host.innerHTML=EXM.map((x,i)=>`<button data-i="${i}">${x[0]}</button>`).join('');
  host.onclick=e=>{const b=e.target.closest('button');if(!b)return;const x=EXM[+b.dataset.i],r=+b.dataset.i+2;s.put('A'+r,x[0]);s.put('B'+r,x[1]);s.put('C'+r,x[2]);s.select('B'+r);};})();
 
